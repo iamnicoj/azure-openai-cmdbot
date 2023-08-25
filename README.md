@@ -124,7 +124,7 @@ Let's go!
 
 https://www.youtube.com/watch?v=g6rvHWpx_Go
 
-[![Watch the video](https://embracethered.com/blog/images/2023/cmdbot-thumbnail-small.png)](https://www.youtube.com/watch?v=g6rvHWpx_Go)
+[![Watch the video](https://embracethered.com/blog/images/2023/yolo-thumbnail-small.png)](https://www.youtube.com/watch?v=g6rvHWpx_Go)
 
 
 # Examples
