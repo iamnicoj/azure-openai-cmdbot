@@ -67,7 +67,7 @@ if /i %createDIR%==1 ( call :install_cmdbot_directory )
 if /i %createDIR%==2 ( call :install_cmdbot_repository )
 
 ::Make sure safety is on when default installing 
-::Note: when upgrading from v0.1 to v0.2 it will delete the file. 
+::Note: when upgrading from v0.1 to v0.3 it will delete the file. 
 ::With v.0.2 the safety switch moved to the config file cmdbot.yaml
 if /i !installing!==1 ( del %HOMEDRIVE%%HOMEPATH%\.cmdbot-safety-off )
 

@@ -2,14 +2,14 @@
 
 ![Animated GIF](https://github.com/wunderwuzzi23/blog/raw/master/static/images/2023/yolo-shell-anim-gif.gif)
 
-# cmdbot v0.2 - Support for Azure OpenAI Deployments
+# cmdbot v0.3 - Support for Azure OpenAI Deployments
 
 This update introduces the `cmdbot.yaml` configuration file. In this file you can specify which Azure OpenAI deployment you want to query, and other settings. The safety switch also moved into this configuration file.
 
 
 ```
-yolo v0.2.1 - by @wunderwuzzi23
-renamed to cmdbot v0.2.1 - by @iamnicoj
+yolo v0.3.1 - by @wunderwuzzi23
+renamed to cmdbot v0.3.1 - by @iamnicoj
 
 Usage: cmdbot [-a] list the current directory information
 Argument: -a: Prompt the user before running the command (only useful when safety is off)
