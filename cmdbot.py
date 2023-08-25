@@ -53,8 +53,8 @@ def get_full_prompt(user_prompt, shell):
   return prompt
 
 def print_usage():
-  print("yolo v0.3.1 - by @wunderwuzzi23")
-  print("renamed to cmdbot v0.3.1 - by @iamnicoj")
+  print("yolo v0.2.1 - by @wunderwuzzi23")
+  print("cmdbot v0.3.1 - Azure OpenAI Integration - by @iamnicoj")
   print()
   print("Usage: cmdbot [-a] list the current directory information")
   print("Argument: -a: Prompt the user before running the command (only useful when safety is off)")

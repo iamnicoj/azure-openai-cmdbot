@@ -8,8 +8,8 @@ This update introduces the `cmdbot.yaml` configuration file. In this file you ca
 
 
 ```
-yolo v0.3.1 - by @wunderwuzzi23
-renamed to cmdbot v0.3.1 - by @iamnicoj
+yolo v0.2.1 - by @wunderwuzzi23
+cmdbot v0.3.1 - Azure OpenAI Integration - by @iamnicoj
 
 Usage: cmdbot [-a] list the current directory information
 Argument: -a: Prompt the user before running the command (only useful when safety is off)
