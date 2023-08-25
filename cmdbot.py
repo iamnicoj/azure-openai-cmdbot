@@ -61,7 +61,7 @@ def print_usage():
   print()
 
   print("Current configuration per cmdbot.yaml:")
-  print("* Model        : " + str(config["model"])) # Not sure if this is needed as the azure engine will have a model deployed
+  # print("* Model        : " + str(config["model"])) # Not sure if this is needed as the azure engine will have a model deployed
   print("* Temperature  : " + str(config["temperature"]))
   print("* API Base     : " + str(config["api_base"]))
   print("* API Version  : " + str(config["api_version"]))

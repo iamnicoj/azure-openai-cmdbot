@@ -8,16 +8,19 @@ This update introduces the `cmdbot.yaml` configuration file. In this file you ca
 
 
 ```
-cmdbot v0.2 - by @wunderwuzzi23
+yolo v0.2.1 - by @wunderwuzzi23
+renamed to cmdbot v0.2.1 - by @iamnicoj
 
 Usage: cmdbot [-a] list the current directory information
 Argument: -a: Prompt the user before running the command (only useful when safety is off)
 
 Current configuration per cmdbot.yaml:
-* Model        : gpt-3.5-turbo
 * Temperature  : 0
-* Max. Tokens  : 500
-* Safety       : on
+* API Base     : <SET-VALUE>
+* API Version  : <SET-VALUE>
+* API Type     : azure
+* Engine       : <SET-VALUE>
+* Safety       : True
 ```
 
 Happy Hacking!
