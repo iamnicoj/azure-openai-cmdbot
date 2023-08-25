@@ -1,4 +1,8 @@
 model: gpt-3.5-turbo  # If you have access to gpt-4 API already, you can update this.
+api_base: https://nico-openai.openai.azure.com/
+api_version: 2023-03-15-preview
+api_type: azure
+engine: nicogpt
 temperature: 0
 max_tokens: 500
 
@@ -6,4 +10,4 @@ max_tokens: 500
 safety: True
 
 # Open AI API Key (optional): The key can aso be provided via environment variable (OPENAI_API_KEY), .env, or ~/.openai.apikey file
-openai_api_key:
+# openai_api_key:

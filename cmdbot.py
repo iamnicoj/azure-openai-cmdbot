@@ -4,12 +4,15 @@
 # Copyright (c) 2023 wunderwuzzi23
 # Greetings from Seattle! 
 
+# Forked and Adapted by @iamnicoj - August 2023
+# Hi from Washington DC!
+
 import os
 import platform
 import openai
 import sys
 import subprocess
-import dotenv 
+import dotenv
 import distro
 import yaml
 import pyperclip
@@ -21,10 +24,10 @@ def read_config() -> any:
 
   ## Find the executing directory (e.g. in case an alias is set)
   ## So we can find the config file
-  yolo_path = os.path.abspath(__file__)
-  prompt_path = os.path.dirname(yolo_path)
+  cmdbot_path = os.path.abspath(__file__)
+  prompt_path = os.path.dirname(cmdbot_path)
 
-  config_file = os.path.join(prompt_path, "yolo.yaml")
+  config_file = os.path.join(prompt_path, "cmdbot.yaml")
   with open(config_file, 'r') as file:
     return yaml.safe_load(file)
 
@@ -33,8 +36,8 @@ def get_full_prompt(user_prompt, shell):
 
   ## Find the executing directory (e.g. in case an alias is set)
   ## So we can find the prompt.txt file
-  yolo_path = os.path.abspath(__file__)
-  prompt_path = os.path.dirname(yolo_path)
+  cmdbot_path = os.path.abspath(__file__)
+  prompt_path = os.path.dirname(cmdbot_path)
 
   ## Load the prompt and prep it
   prompt_file = os.path.join(prompt_path, "prompt.txt")
@@ -50,16 +53,20 @@ def get_full_prompt(user_prompt, shell):
   return prompt
 
 def print_usage():
-  print("Yolo v0.2.1 - by @wunderwuzzi23")
+  print("yolo v0.2.1 - by @wunderwuzzi23")
+  print("renamed to cmdbot v0.2.1 - by @iamnicoj")
   print()
-  print("Usage: yolo [-a] list the current directory information")
+  print("Usage: cmdbot [-a] list the current directory information")
   print("Argument: -a: Prompt the user before running the command (only useful when safety is off)")
   print()
 
-  print("Current configuration per yolo.yaml:")
-  print("* Model        : " + str(config["model"]))
+  print("Current configuration per cmdbot.yaml:")
+  print("* Model        : " + str(config["model"])) # Not sure if this is needed as the azure engine will have a model deployed
   print("* Temperature  : " + str(config["temperature"]))
-  print("* Max. Tokens  : " + str(config["max_tokens"]))
+  print("* API Base     : " + str(config["api_base"]))
+  print("* API Version  : " + str(config["api_version"]))
+  print("* API Type     : " + str(config["api_type"]))
+  print("* Engine       : " + str(config["engine"]))
   print("* Safety       : " + str(bool(config["safety"])))
 
 
@@ -85,18 +92,23 @@ def set_api_key():
   #   or do `export OPENAI_API_KEY=<yourkey>` before use
   dotenv.load_dotenv()
   openai.api_key = os.getenv("OPENAI_API_KEY")
-  
+  openai.api_type = config["api_type"]
+  openai.api_base = config["api_base"]
+  openai.api_version = config["api_version"]
+
+  # @iamnicoj: I don't like this option, so I'm commenting it out
   #2. Place a ".openai.apikey" in the home directory that holds the line:
   #   <yourkey>
   #   Note: This options will likely be removed in the future
-  if not openai.api_key:  #If statement to avoid "invalid filepath" error
-    home_path = os.path.expanduser("~")    
-    openai.api_key_path = os.path.join(home_path,".openai.apikey")
+  # if not openai.api_key:  #If statement to avoid "invalid filepath" error
+  #   home_path = os.path.expanduser("~")
+  #   openai.api_key_path = os.path.join(home_path,".openai.apikey")
 
-  #3. Final option is the key might be in the yolo.yaml config file
+  # @iamnicoj: I don't like this option, so I'm commenting it out
+  #3. Final option is the key might be in the cmdbot.yaml config file
   #   openai_apikey: <yourkey>
-  if not openai.api_key:  
-    openai.api_key = config["openai_api_key"]
+  # if not openai.api_key:  
+  #   openai.api_key = config["openai_api_key"]
 
 if __name__ == "__main__":
 
@@ -108,7 +120,7 @@ if __name__ == "__main__":
 
   command_start_idx  = 1     # Question starts at which argv index?
   ask_flag = False           # safety switch -a command line argument
-  yolo = ""                  # user's answer to safety switch (-a) question y/n
+  cmdbot = ""                  # user's answer to safety switch (-a) question y/n
 
   # Parse arguments and make sure we have at least a single word
   if len(sys.argv) < 2:
@@ -122,7 +134,7 @@ if __name__ == "__main__":
     command_start_idx = 2
 
   # To allow easy/natural use we don't require the input to be a 
-  # single string. So, the user can just type yolo what is my name?
+  # single string. So, the user can just type cmdbot what is my name?
   # without having to put the question between ''
   arguments = sys.argv[command_start_idx:]
   user_prompt = " ".join(arguments)
@@ -142,7 +154,8 @@ def call_open_ai(query):
 
   # Call the ChatGPT API
   response = openai.ChatCompletion.create(
-    model=config["model"],
+    engine=config["engine"],
+    # model=config["model"],
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": prompt}
@@ -155,7 +168,7 @@ def call_open_ai(query):
 
 
 #Enable color output on Windows using colorama
-init() 
+init()
 
 def check_for_issue(response):
   prefixes = ("sorry", "i'm sorry", "the question is not clear", "i'm", "i am")
@@ -183,19 +196,19 @@ def prompt_user_input(response):
         prompt_text =  "Execute command? [Y]es [n]o [m]odify ==> "
     print(prompt_text, end = '')
     user_input = input()
-    return user_input 
-  
+    return user_input
+
   if config["safety"] == False:
-     return "Y"
+    return "Y"
 
 def evaluate_input(user_input, command):
   if user_input.upper() == "Y" or user_input == "":
     if shell == "powershell.exe":
-      subprocess.run([shell, "/c", command], shell=False)  
-    else: 
+      subprocess.run([shell, "/c", command], shell=False)
+    else:
       # Unix: /bin/bash /bin/zsh: uses -c both Ubuntu and macOS should work, others might not
       subprocess.run([shell, "-c", command], shell=False)
-  
+
   if user_input.upper() == "M":
     print("Modify prompt: ", end = '')
     modded_query = input()
@@ -205,7 +218,7 @@ def evaluate_input(user_input, command):
     modded_user_input = prompt_user_input(modded_response)
     print()
     evaluate_input(modded_user_input, modded_response)
-  
+
   if user_input.upper() == "C":
       if os.name == "posix" and missing_posix_display():
         return
