@@ -1,4 +1,4 @@
-# cmdbot Demo - Previously known as yolo
+# cmdbot Demo - aka as yolo
 
 ![Animated GIF](https://github.com/wunderwuzzi23/blog/raw/master/static/images/2023/yolo-shell-anim-gif.gif)
 

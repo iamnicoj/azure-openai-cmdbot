@@ -61,7 +61,6 @@ def print_usage():
   print()
 
   print("Current configuration per cmdbot.yaml:")
-  # print("* Model        : " + str(config["model"])) # Not sure if this is needed as the azure engine will have a model deployed
   print("* Temperature  : " + str(config["temperature"]))
   print("* API Base     : " + str(config["api_base"]))
   print("* API Version  : " + str(config["api_version"]))
@@ -96,21 +95,8 @@ def set_api_key():
   openai.api_base = config["api_base"]
   openai.api_version = config["api_version"]
 
-  # @iamnicoj: I don't like this option, so I'm commenting it out
-  #2. Place a ".openai.apikey" in the home directory that holds the line:
-  #   <yourkey>
-  #   Note: This options will likely be removed in the future
-  # if not openai.api_key:  #If statement to avoid "invalid filepath" error
-  #   home_path = os.path.expanduser("~")
-  #   openai.api_key_path = os.path.join(home_path,".openai.apikey")
-
-  # @iamnicoj: I don't like this option, so I'm commenting it out
-  #3. Final option is the key might be in the cmdbot.yaml config file
-  #   openai_apikey: <yourkey>
-  # if not openai.api_key:  
-  #   openai.api_key = config["openai_api_key"]
-
 if __name__ == "__main__":
+  print("cmdbot v0.3.1 - Azure OpenAI Integration - by @iamnicoj - @wunderwuzzi23")
 
   config = read_config()
   set_api_key()
@@ -155,7 +141,6 @@ def call_open_ai(query):
   # Call the ChatGPT API
   response = openai.ChatCompletion.create(
     engine=config["engine"],
-    # model=config["model"],
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": prompt}
